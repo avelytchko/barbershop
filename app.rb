@@ -28,6 +28,11 @@ get '/login/form' do
   erb :login_form
 end
 
+get '/visit' do
+  erb :visit
+end
+
+
 post '/login/attempt' do
   session[:identity] = params['username']
   @password = params['password']
