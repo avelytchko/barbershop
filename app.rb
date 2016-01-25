@@ -32,6 +32,19 @@ get '/visit' do
   erb :visit
 end
 
+post '/visit' do
+  @user_name = params[:user_name]
+  @date_time = params[:date_time]
+  @barber = params[:barber]
+
+  @message = "Dear #{@user_name}, our Barber #{@barber} we'll be waiting for you at #{@date_time}"
+
+  f = File.open('users.txt', 'a')
+  f.write "#{@user_name}, #{@barber}, #{@date_time},\n"
+  f.close
+
+  erb :visit
+end
 
 post '/login/attempt' do
   session[:identity] = params['username']
@@ -51,5 +64,9 @@ get '/logout' do
 end
 
 get '/secure/place' do
-  erb 'This is a secret place that only <%=session[:identity]%> has access to!'
+  @cust_arr = []
+  @customer_file = File.read('users.txt').strip.split(",")
+  @cust_arr << @customer_file.each_slice(3).to_a
+  
+  erb :users
 end

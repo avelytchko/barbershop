@@ -1,0 +1,22 @@
+<table class="table table-striped">
+  <thead>
+		<tr>
+      <th>#</th>
+      <th>Costumer Name</th>
+      <th>Date of Visit</th>
+      <th>Barber</th>
+     </tr>
+	</thead>
+	<tbody>
+		<% @cust_arr.each do |line| %>
+			<% line.each do |col| %>
+		<tr>
+			<th scope="row">#</th>
+				<% col.each do |row1| %>
+				<td><%= row1.to_s.strip %></td>
+				<% end %>
+		</tr>
+			<% end %>
+			<% end %>
+	</tbody>
+</table>
