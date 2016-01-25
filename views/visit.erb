@@ -1,4 +1,4 @@
-<form action='/visit' method='post' class="navbar-form navbar-left well">
+<form action='/visit' method='post' class="well">
   <% if @message %>
     <div class="alert alert-success" role="alert"><%= @message %></div>
   <% end %>
@@ -8,7 +8,11 @@
   </div>
   <div class="form-group">
     <label for="date">Время визита</label>
-    <input type="datetime" class="form-control" id="date" placeholder="Date" name="date_time">
+    <input type="text" class="form-control" id="date" placeholder="Date" name="date_time">
+  </div>
+  <div class="form-group">
+    <label for="phone">Ваш телефон</label>
+    <input type="text" class="form-control" id="phone" placeholder="Phone" name="phone">
   </div>
   <label for="selector">Парикмахер</label>
   <select class="form-control" id="selector" name="barber">
@@ -17,5 +21,6 @@
 	  <option>Jessie Pinkman</option>
 	  <option>Gus Fring</option>
 	</select>
+  <br>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

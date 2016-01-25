@@ -3,6 +3,7 @@
 		<tr>
       <th>#</th>
       <th>Costumer Name</th>
+      <th>Phone number</th>
       <th>Date of Visit</th>
       <th>Barber</th>
      </tr>
@@ -12,8 +13,8 @@
 			<% line.each do |col| %>
 		<tr>
 			<th scope="row">#</th>
-				<% col.each do |row1| %>
-				<td><%= row1.to_s.strip %></td>
+				<% col.each do |row| %>
+				<td><%= row.to_s.strip %></td>
 				<% end %>
 		</tr>
 			<% end %>
