@@ -37,11 +37,12 @@ post '/visit' do
   @phone = params[:phone]
   @date_time = params[:date_time]
   @barber = params[:barber]
+  @color = params[:colorpicker]
 
   @message = "Dear #{@user_name}, our Barber #{@barber} we'll be waiting for you at #{@date_time}"
 
   f = File.open('users.txt', 'a')
-  f.write "#{@user_name}, #{@phone}, #{@barber}, #{@date_time},\n"
+  f.write "#{@user_name}, #{@phone}, #{@barber}, #{@date_time}, #{@color},\n"
   f.close
 
   erb :visit
@@ -67,7 +68,7 @@ end
 get '/secure/place' do
   @cust_arr = []
   @customer_file = File.read('users.txt').strip.split(",")
-  @cust_arr << @customer_file.each_slice(4).to_a
+  @cust_arr << @customer_file.each_slice(5).to_a
   
   erb :users
 end

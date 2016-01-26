@@ -14,6 +14,7 @@
     <label for="phone">Ваш телефон</label>
     <input type="text" class="form-control" id="phone" placeholder="Phone" name="phone">
   </div>
+  <div class="form-group">
   <label for="selector">Парикмахер</label>
   <select class="form-control" id="selector" name="barber">
   	<option selected disabled>Выберите мастера</option>
@@ -21,6 +22,29 @@
 	  <option>Jessie Pinkman</option>
 	  <option>Gus Fring</option>
 	</select>
+  </div>
+  <div class="form-group">
+    <label for="color">В какой цвет красить</label><br>
+    <select name="colorpicker" class="form-control">
+      <option value="#7bd148">Green</option>
+      <option value="#5484ed">Bold blue</option>
+      <option value="#a4bdfc">Blue</option>
+      <option value="#46d6db">Turquoise</option>
+      <option value="#7ae7bf">Light green</option>
+      <option value="#51b749">Bold green</option>
+      <option value="#fbd75b">Yellow</option>
+      <option value="#ffb878">Orange</option>
+      <option value="#ff887c">Red</option>
+      <option value="#dc2127">Bold red</option>
+      <option value="#dbadff">Purple</option>
+      <option value="#e1e1e1">Gray</option>
+    </select>
+  </div>
   <br>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+<script type="text/javascript">
+  $(function(){
+    $('select[name="colorpicker"]').simplecolorpicker({theme: 'fontawesome'});
+  });
+</script>
