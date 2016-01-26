@@ -4,20 +4,20 @@
   <% end %>
   <div class="form-group">
     <label for="name">Ваше имя</label>
-    <input type="text" class="form-control" id="name" placeholder="Name" name="user_name">
+    <input type="text" class="form-control" id="name" placeholder="Name" name="username_c" value="<%=@username%>">
   </div>
   <div class="form-group">
     <label for="date">Время визита</label>
-    <input type="text" class="form-control" id="date" placeholder="Date" name="date_time">
+    <input type="text" class="form-control" id="date" placeholder="Date" name="datetime_c" value="<%=@datetime%>">
   </div>
   <div class="form-group">
     <label for="phone">Ваш телефон</label>
-    <input type="text" class="form-control" id="phone" placeholder="Phone" name="phone">
+    <input type="text" class="form-control" id="phone" placeholder="Phone" name="phone_c" value="<%=@phone%>">
   </div>
   <div class="form-group">
   <label for="selector">Парикмахер</label>
   <select class="form-control" id="selector" name="barber">
-  	<option selected disabled>Выберите мастера</option>
+  	<option></option>
 	  <option>Walter White</option>
 	  <option>Jessie Pinkman</option>
 	  <option>Gus Fring</option>
@@ -25,7 +25,8 @@
   </div>
   <div class="form-group">
     <label for="color">В какой цвет красить</label><br>
-    <select name="colorpicker" class="form-control">
+    <select name="colorpicker" class="form-control" id="color">
+      <option></option>
       <option value="#7bd148">Green</option>
       <option value="#5484ed">Bold blue</option>
       <option value="#a4bdfc">Blue</option>

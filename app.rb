@@ -33,19 +33,29 @@ get '/visit' do
 end
 
 post '/visit' do
-  @user_name = params[:user_name]
-  @phone = params[:phone]
-  @date_time = params[:date_time]
+  @username = params[:username_c]
+  @phone = params[:phone_c]
+  @datetime = params[:datetime_c]
   @barber = params[:barber]
   @color = params[:colorpicker]
 
-  @message = "Dear #{@user_name}, our Barber #{@barber} we'll be waiting for you at #{@date_time}"
+  fval = { :username_c => 'Введите имя',
+            :phone_c => 'Введите телефон',
+            :datetime_c => 'Введите дату и время',
+            :barber => 'Выберите парикмахера',
+            :colorpicker => 'Выберите цвет'}
 
-  f = File.open('users.txt', 'a')
-  f.write "#{@user_name}, #{@phone}, #{@barber}, #{@date_time}, #{@color},\n"
-  f.close
+  @error = fval.select {|key,_| params[key] == ""}.values.join(", ")
 
-  erb :visit
+  if @error == ""
+    @message = "Dear #{@username}, our Barber #{@barber} we'll be waiting for you at #{@datetime}"
+    f = File.open('users.txt', 'a')
+    f.write "#{@username}, #{@phone}, #{@barber}, #{@datetime}, #{@color},\n"
+    f.close
+  end
+
+erb :visit
+
 end
 
 post '/login/attempt' do
