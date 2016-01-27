@@ -5,9 +5,9 @@ require 'sqlite3'
 
 configure do
   enable :sessions
-  @db = SQLite3::Database.new 'barbershop.db'
-  @db.execute 'CREATE TABLE "Users" ("Id" INTEGER PRIMARY KEY AUTOINCREMENT, "Name" VARCHAR, "Phone" VARCHAR, "DateStamp" VARCHAR, "Barber" VARCHAR, "Color" VARCHAR);'
-  @db.execute 'CREATE TABLE "Contacts" ("Id" INTEGER PRIMARY KEY AUTOINCREMENT, "Email" VARCHAR, "Message" VARCHAR);'
+  db = get_db
+  db.execute 'CREATE TABLE IF NOT EXISTS "Users" ("Id" INTEGER PRIMARY KEY AUTOINCREMENT, "Name" VARCHAR, "Phone" VARCHAR, "DateStamp" VARCHAR, "Barber" VARCHAR, "Color" VARCHAR);'
+  db.execute 'CREATE TABLE IF NOT EXISTS "Contacts" ("Id" INTEGER PRIMARY KEY AUTOINCREMENT, "Email" VARCHAR, "Message" VARCHAR);'
 end
 
 helpers do
@@ -58,6 +58,9 @@ post '/visit' do
     f.close
   end
 
+  db = get_db
+  db.execute 'insert into Users (Name, Phone, DateStamp, Barber, Color) values (?, ?, ?, ?, ?)', [@username, @phone, @datetime, @barber, @color]
+
 erb :visit
 
 end
@@ -85,4 +88,8 @@ get '/secure/place' do
   @cust_arr << @customer_file.each_slice(5).to_a
   
   erb :users
+end
+
+def get_db
+  return SQLite3::Database.new 'barbershop.db'
 end
