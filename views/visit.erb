@@ -5,15 +5,15 @@
   <% end %>
   <div class="form-group">
     <label for="name">Ваше имя</label>
-    <input type="text" class="form-control" id="name" placeholder="Name" name="username_c" value="<%=@username%>">
+    <input type="text" class="form-control" id="name" placeholder="Ваше имя" name="username_c" value="<%=@username%>">
   </div>
   <div class="form-group">
     <label for="date">Время визита</label>
-    <input type="text" class="form-control" id="date" placeholder="Date" name="datetime_c" value="<%=@datetime%>">
+    <input type="text" class="form-control" id="date" placeholder="Введите дату и время" name="datetime_c" value="<%=@datetime%>">
   </div>
   <div class="form-group">
     <label for="phone">Ваш телефон</label>
-    <input type="text" class="form-control" id="phone" placeholder="Phone" name="phone_c" value="<%=@phone%>">
+    <input type="text" class="form-control" id="phone" placeholder="Ваш телефон" name="phone_c" value="<%=@phone%>">
   </div>
   <div class="form-group">
   <label for="selector">Парикмахер</label>
@@ -48,5 +48,7 @@
 <script type="text/javascript">
   $(function(){
     $('select[name="colorpicker"]').simplecolorpicker({theme: 'fontawesome'});
+    $.datetimepicker.setLocale('ru');
+    $('#date').datetimepicker();
   });
-</script>
+  </script>
