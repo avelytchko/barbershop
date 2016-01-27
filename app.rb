@@ -2,12 +2,26 @@ require 'rubygems'
 require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
+require 'tilt/erb'
+
+def get_db
+  db = SQLite3::Database.new 'barbershop.db'
+  db.results_as_hash = true
+  return db
+end
 
 configure do
   enable :sessions
   db = get_db
-  db.execute 'CREATE TABLE IF NOT EXISTS "Users" ("Id" INTEGER PRIMARY KEY AUTOINCREMENT, "Name" VARCHAR, "Phone" VARCHAR, "DateStamp" VARCHAR, "Barber" VARCHAR, "Color" VARCHAR);'
-  db.execute 'CREATE TABLE IF NOT EXISTS "Contacts" ("Id" INTEGER PRIMARY KEY AUTOINCREMENT, "Email" VARCHAR, "Message" VARCHAR);'
+  db.execute 'CREATE TABLE IF NOT EXISTS "barbers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "name" VARCHAR UNIQUE);'
+  db.execute 'INSERT OR IGNORE INTO barbers ("name") values ("Walter White");'
+  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values ("Jessie Pinkman");'
+  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values ("Hank Schrader");'
+  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values ("Gus Fring");'
+  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values ("Saul Goodman");'
+  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values ("Skyler White");'
+  db.execute 'CREATE TABLE IF NOT EXISTS "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "name" VARCHAR, "phone" VARCHAR, "datestamp" VARCHAR, "barber" VARCHAR, "color" VARCHAR);'
+  db.execute 'CREATE TABLE IF NOT EXISTS "contacts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "email" VARCHAR, "message" VARCHAR);'
 end
 
 helpers do
@@ -58,10 +72,10 @@ post '/visit' do
   if @error == ""
     @message = "Dear #{@username}, our Barber #{@barber} we'll be waiting for you at #{@datetime}"
     f = File.open('users.txt', 'a')
-    f.write "#{@username}, #{@phone}, #{@barber}, #{@datetime}, #{@color},\n"
+    f.write "#{@username}, #{@datetime}, #{@phone}, #{@barber}, #{@color},\n"
     f.close
     db = get_db
-    db.execute 'insert into Users (Name, Phone, DateStamp, Barber, Color) values (?, ?, ?, ?, ?)', [@username, @phone, @datetime, @barber, @color]
+    db.execute 'insert into users (name, phone, datestamp, barber, color) values (?, ?, ?, ?, ?)', [@username, @phone, @datetime, @barber, @color]
   end
 
 erb :visit
@@ -91,11 +105,4 @@ get '/secure/place' do
   @cust_arr << @customer_file.each_slice(5).to_a
   
   erb :users
-end
-
-def get_db
-  db = SQLite3::Database.new 'barbershop.db'
-  db.results_as_hash = true
-  return db
-
 end
