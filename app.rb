@@ -32,6 +32,10 @@ get '/login/form' do
   erb :login_form
 end
 
+get '/showusers' do
+  erb :showusers
+end
+
 get '/visit' do
   erb :visit
 end
@@ -56,10 +60,9 @@ post '/visit' do
     f = File.open('users.txt', 'a')
     f.write "#{@username}, #{@phone}, #{@barber}, #{@datetime}, #{@color},\n"
     f.close
+    db = get_db
+    db.execute 'insert into Users (Name, Phone, DateStamp, Barber, Color) values (?, ?, ?, ?, ?)', [@username, @phone, @datetime, @barber, @color]
   end
-
-  db = get_db
-  db.execute 'insert into Users (Name, Phone, DateStamp, Barber, Color) values (?, ?, ?, ?, ?)', [@username, @phone, @datetime, @barber, @color]
 
 erb :visit
 
@@ -91,5 +94,8 @@ get '/secure/place' do
 end
 
 def get_db
-  return SQLite3::Database.new 'barbershop.db'
+  db = SQLite3::Database.new 'barbershop.db'
+  db.results_as_hash = true
+  return db
+
 end
