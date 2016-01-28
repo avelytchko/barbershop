@@ -19,9 +19,8 @@
   <label for="selector">Парикмахер</label>
   <select class="form-control" id="selector" name="barber">
   	<option></option>
-    <% db = get_db
-      db.execute 'select * from barbers' do |row| %>
-        <option <%= @barber == row['name'] ? 'selected' : '' %>><%=row['name']%></option>
+    <% @result_barbers.each do |row| %>
+    <option <%= @barber == row['name'] ? 'selected' : '' %>><%= row['name'] %></option>
     <% end %>
 	</select>
   </div>

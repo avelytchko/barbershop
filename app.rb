@@ -13,15 +13,15 @@ end
 configure do
   enable :sessions
   db = get_db
-  db.execute 'CREATE TABLE IF NOT EXISTS "barbers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "name" VARCHAR UNIQUE);'
-  db.execute 'INSERT OR IGNORE INTO barbers ("name") values ("Walter White");'
-  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values ("Jessie Pinkman");'
-  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values ("Hank Schrader");'
-  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values ("Gus Fring");'
-  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values ("Saul Goodman");'
-  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values ("Skyler White");'
   db.execute 'CREATE TABLE IF NOT EXISTS "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "name" VARCHAR, "phone" VARCHAR, "datestamp" VARCHAR, "barber" VARCHAR, "color" VARCHAR);'
   db.execute 'CREATE TABLE IF NOT EXISTS "contacts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "email" VARCHAR, "message" VARCHAR);'
+  db.execute 'CREATE TABLE IF NOT EXISTS "barbers" ("id" INTEGER PRIMARY KEY AUTOINCREMENT, "name" VARCHAR UNIQUE);'
+  db.execute 'INSERT OR IGNORE INTO barbers ("name") values (?);', ["Walter White"]
+  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values (?);', ["Jessie Pinkman"]
+  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values (?);', ["Hank Schrader"]
+  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values (?);', ["Gus Fring"]
+  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values (?);', ["Saul Goodman"]
+  db.execute 'INSERT OR IGNORE INTO "barbers" ("name") values (?);', ["Skyler White"]
 end
 
 helpers do
@@ -36,6 +36,11 @@ before '/secure/*' do
     @error = 'Sorry, you need to be logged in to visit ' + request.path
     halt erb(:login_form)
   end
+end
+
+before '/visit' do
+  db = get_db
+  @result_barbers = db.execute 'select * from barbers'
 end
 
 get '/' do
