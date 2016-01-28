@@ -46,8 +46,10 @@ get '/login/form' do
   erb :login_form
 end
 
-get '/showusers' do
-  erb :showusers
+get '/secure/customers' do
+  db = get_db
+  @results = db.execute 'select * from users'
+  erb :customers
 end
 
 get '/visit' do
